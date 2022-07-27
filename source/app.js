@@ -23,9 +23,7 @@ app.use(session({
 })) 
 app.use(cookie())
 /* Middlewares Custom */
-app.use(require('./middlewares/user'))
-app.use(require('./middlewares/msg'))
-app.use(require('./middlewares/cart'))
+app.use(require('./middlewares/user')
 
 app.use(require("./routes/main.routes"))
 app.use('/products',require('./routes/products.routes'))
