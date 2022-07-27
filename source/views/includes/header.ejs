@@ -10,7 +10,6 @@
             <a href="/products/create">Create</a>
         <% } else if (user) { %>
             <a href="/">Home</a> 
-            <a href="/cart">Cart</a> 
         <% } else { %>
             <a href="/">Home</a>  
         <% } %>
@@ -25,9 +24,3 @@
         <% } %>
     </nav>
 </header>
-
-<% if (msg) { %>
- <article id="alert-msg">
-    <h2><%= msg %></h2>
- </article>
-<% } %>
