@@ -1,6 +1,9 @@
 const {validationResult} = require('express-validator')
-const {index,create,write} = require('../models/user.model');
+//const {index,create,write} = require('../models/user.model');
+
 const usersController = {
+//  Ahora nuestros métodos ***
+//    Tienen que ser métodos async ***
 
   register: function(req, res){
     return res.render('users/register',{
@@ -17,12 +20,16 @@ const usersController = {
         errors: validaciones.mapped()
       });
     }
+    // ---- HASHEAMOS LA PASSWORD DEL NEW USER ----
 
-    req.body.avatar = req.files[0].filename;
-    let newUser = create(req.body)
-    let users = index();
-    users.push(newUser)
-    write(users)
+    // ---- VERIFICAMOS SI ES ADMIN ----
+
+
+    // req.body.avatar = req.files[0].filename;
+    // let newUser = create(req.body)
+    // let users = index();
+    // users.push(newUser)
+    // write(users)
     return res.redirect(`/users/login`)
   },
 
@@ -42,9 +49,9 @@ const usersController = {
       });
     }
 
-    let users = index();
-    let user = users.find(u => u.username === req.body.username)
-    req.session.user = user
+    // let users = index();
+    // let user = users.find(u => u.username === req.body.username)
+    // req.session.user = user
     return res.redirect(`/?msg=Bienvenido! ${user.isAdmin? 'Administador':user.username.split('@')[0]}`)
   },
   logout: function (req,res) {
