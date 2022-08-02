@@ -1,6 +1,6 @@
 const { hashSync } = require('bcryptjs');
 const {validationResult} = require('express-validator')
-const { User } = require('../database/models/index');
+const { user } = require('../database/models/index');
 
 const usersController = {
 //  Ahora nuestros métodos ***
@@ -26,7 +26,7 @@ req.body.password = hashSync(req.body.password, 10);
     // ---- VERIFICAMOS SI ES ADMIN ----
 req.body.isAdmin = String(req.body.username).toLocaleLowerCase().includes('@dh');
 
-await User.create(req.body);
+await user.create(req.body);
     // req.body.avatar = req.files[0].filename;
   
     return res.redirect(`/users/login`)
@@ -48,7 +48,7 @@ await User.create(req.body);
       });
     }
 
-    let users = await User.findAll();
+    let users = await user.findAll();
     let user = users.find(u => u.username === req.body.username)
      req.session.user = user
     return res.redirect(`/?msg=Bienvenido! ${user.isAdmin? 'Administador':user.username.split('@')[0]}`)
