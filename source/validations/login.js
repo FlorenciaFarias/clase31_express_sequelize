@@ -16,13 +16,13 @@ body('username').notEmpty().withMessage('El username no puede quedar vacío.').b
 body('password').notEmpty().withMessage('La contraseña no puede quedar vacía.').bail().isLength({min : 4}).bail().custom(async (value,{req}) =>{
   let {username} = req.body
   let users = await user.findAll();
-  let user = users.find(u => u.username === username)
+  let userDB = users.find(u => u.username === username)
 
-  if(!user){
+  if(!userDB){
     throw new Error("Usuario no encontrado")
   }
 
-  if(!compareSync(value,user.password)){
+  if(!compareSync(value,userDB.password)){
     throw new Error("La contraseña es incorrecta")
   }
 
