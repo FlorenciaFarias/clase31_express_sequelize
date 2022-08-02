@@ -49,9 +49,9 @@ await user.create(req.body);
     }
 
     let users = await user.findAll();
-    let user = users.find(u => u.username === req.body.username)
-     req.session.user = user
-    return res.redirect(`/?msg=Bienvenido! ${user.isAdmin? 'Administador':user.username.split('@')[0]}`)
+    let userDB = users.find(u => u.username === req.body.username)
+     req.session.user = userDB
+    return res.redirect(`/?msg=Bienvenido! ${userDB.isAdmin? 'Administador':userDB.username.split('@')[0]}`)
   },
   logout: function (req,res) {
     delete req.session.user 
