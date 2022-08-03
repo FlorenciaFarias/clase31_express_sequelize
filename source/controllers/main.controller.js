@@ -1,9 +1,17 @@
-const {index,one} = require('../models/product.model');
+const {product} = require('../database/models/index')
+const { Op } = require("sequelize")
 module.exports = {
-    home: (req,res) => {
+    home: async  (req,res) => {
+        let products = await product.findAll({
+            where:{
+                price: {
+                    [Op.lte]:2000
+                }
+            }
+        })
         return res.render('index',{
             styles: ['index'],
-            products: index()
+            products: products
         })
     }
 }
