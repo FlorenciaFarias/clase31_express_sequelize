@@ -48,7 +48,11 @@ await user.create(req.body);
       });
     }
 
-    let users = await user.findAll();
+    let users = await user.findAll({
+      includes: {
+        all: true
+      }
+    });
     let userDB = users.find(u => u.username === req.body.username)
      req.session.user = userDB
     return res.redirect(`/?msg=Bienvenido! ${userDB.isAdmin? 'Administador':userDB.username.split('@')[0]}`)
