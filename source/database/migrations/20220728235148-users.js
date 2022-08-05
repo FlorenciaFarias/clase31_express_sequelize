@@ -18,7 +18,11 @@ module.exports = {
         },
         avatar: {
           type: Sequelize.INTEGER,
-          allowNull:true
+          allowNull:true,
+          references:{
+            model:'images',
+            key:'id'
+          }
         },
         isAdmin:{
           type: Sequelize.BOOLEAN,

@@ -49,7 +49,7 @@ await user.create(req.body);
     }
 
     let users = await user.findAll({
-      includes: {
+      include: {
         all: true
       }
     });

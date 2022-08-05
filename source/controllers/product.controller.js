@@ -3,7 +3,7 @@ const {product} = require('../database/models/index')
 module.exports ={
   index: async ( req , res ) =>{
 
-    let products = await product.findAll();
+    let products = await product.findAll({include:{all:true}});
 
     if(req.query && req.query.name){
       products = products.filter(product => product.name.toLowerCase().indexOf(req.query.name.toLowerCase()) > -1)
@@ -15,7 +15,7 @@ module.exports ={
     })
   },
   detail: async ( req , res) => {
-    let productDB = await product.findByPk(req.params.id)
+    let productDB = await product.findByPk(req.params.id,{include:{all:true}})
 
     if(!productDB){
       return res.redirect('/products/')
@@ -48,7 +48,7 @@ module.exports ={
     return res.redirect('/products/')
   },
   edit:async ( req , res ) => {
-    let productDB = await product.findByPk(req.params.id)
+    let productDB = await product.findByPk(req.params.id,{include:{all:true}})
     if(!productDB){
       return res.redirect('/products/')
     }
@@ -59,28 +59,18 @@ module.exports ={
     })
   },
   modify: async (req, res) => {
-    let productDB = await product.findByPk(req.params.id)
+    let productDB = await product.findByPk(req.params.id,{include:{all:true}})
 
     await productDB.update({
       name :  req.body.name,
       description : req.body.description,
       price : parseInt(req.body.price)
     })
-    /*
-      await product.update({
-        name :  req.body.name,
-        description : req.body.description,
-        price : parseInt(req.body.price)
-      },{
-        where:{
-          id:req.params.id
-        }
-      })
-    */
+    
     return res.redirect('/products/detail/' + product.id)
   },
   destroid:async ( req , res ) => {
-    let productDB = await product.findByPk(req.body.product)
+    let productDB = await product.findByPk(req.body.product,{include:{all:true}})
     if(!productDB){
       return res.redirect('/products/');
     }

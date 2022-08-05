@@ -8,8 +8,8 @@
     "start": "node source/app.js",
     "sq-i": "sequelize init",
     "sq-ms": "sequelize init:migrations && sequelize init:seeders",
-    "sq-mg": "sequelize migration:generate --name users",
-    "sq-sg": "sequelize seed:generate --name images",
+    "sq-mg": "sequelize migration:generate --name imagesProducts",
+    "sq-sg": "sequelize seed:generate --name imagesProducts",
     "sq-db": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
   },
   "repository": {

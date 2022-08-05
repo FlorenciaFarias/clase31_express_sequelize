@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     let alias = 'image';
     let cols = {
-        name:{
+        path:{
             type: DataTypes.STRING
         }
     } 
@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         Images.hasMany(models.user, {
             as: 'users',
             foreignKey: 'avatar'
+        }),
+        Images.belongsToMany(models.product,{
+            through:'imagesProducts',
+            foreignKey:'image',
+            otherKey:'product'
         })
     }
     return Images
