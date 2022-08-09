@@ -3,7 +3,7 @@
     <%- include ('../includes/header.ejs')  %> 
     <section>
         <h2>New Product</h2>
-        <form action="/products/save" method="post" id="create">
+        <form action="/products/save" method="post" id="create"> <!--enctype="multipart/form-data"-->
             <input 
                 type="text" 
                 name="name" 

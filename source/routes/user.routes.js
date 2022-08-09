@@ -1,5 +1,5 @@
 const { Router } = require('express');
-//const multer = require('multer');
+// const multer = require('multer');
 const router = Router();
 const { register, login, process, access,logout } = require ('../controllers/user.controller');
 const isLogged = require('../middlewares/isLogged');
