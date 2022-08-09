@@ -1,7 +1,7 @@
 <%- include ('../includes/head.ejs')  %> 
 <body>
     <%- include ('../includes/header.ejs')  %> 
-    <form action="/users/register" method="post" id="register" > <!--enctype="multipart/form-data"-->
+    <form action="/users/register" method="post" id="register" enctype="multipart/form-data" >
         <input type="text" name="username" autocomplete="off" placeholder="Username" value="<%= locals.oldData ? oldData.username : null %>">
         <% if (locals.errors && errors.username) { %>
             <p class="msg-error"> <%= errors.username.msg %> </p>

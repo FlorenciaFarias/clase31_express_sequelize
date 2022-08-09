@@ -1,6 +1,6 @@
 const { hashSync } = require('bcryptjs');
 const {validationResult} = require('express-validator')
-const { user } = require('../database/models/index');
+const { user,image } = require('../database/models/index');
 
 const usersController = {
 //  Ahora nuestros métodos ***
@@ -21,13 +21,23 @@ const usersController = {
         errors: validaciones.mapped()
       });
     }
-    // ---- HASHEAMOS LA PASSWORD DEL NEW USER ----
-req.body.password = hashSync(req.body.password, 10);
-    // ---- VERIFICAMOS SI ES ADMIN ----
-req.body.isAdmin = String(req.body.username).toLocaleLowerCase().includes('@dh');
 
-await user.create(req.body);
-    // req.body.avatar = req.files[0].filename;
+    // ---- HASHEAMOS LA PASSWORD DEL NEW USER ----
+    req.body.password = hashSync(req.body.password, 10);
+    // ---- VERIFICAMOS SI ES ADMIN ----
+    req.body.isAdmin = String(req.body.username).toLocaleLowerCase().includes('@dh');
+
+    if(req.files && req.files.length > 0){
+
+      let avatar = await image.create({
+        path: req.files[0].filename
+      })
+      
+      req.body.avatar = avatar.id;
+
+    }
+
+    await user.create(req.body);
   
     return res.redirect(`/users/login`)
   },
