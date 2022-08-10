@@ -26,8 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     product.associate = ({image}) => {
         product.belongsToMany(image,{
             through:'imagesProducts',
-            foreignKey:'image',
-            otherKey:'product'
+            foreignKey:'product'
         })
     }
     return product

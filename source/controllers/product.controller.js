@@ -1,5 +1,5 @@
 const {validationResult} = require('express-validator')
-const {product} = require('../database/models/index')
+const {product,image,imagesProducts} = require('../database/models/index')
 module.exports ={
   index: async ( req , res ) =>{
 
@@ -8,6 +8,7 @@ module.exports ={
     if(req.query && req.query.name){
       products = products.filter(product => product.name.toLowerCase().indexOf(req.query.name.toLowerCase()) > -1)
     }
+
     return res.render('products/list',{
       title: 'List of products',
       styles: ['products/list'],
@@ -42,9 +43,27 @@ module.exports ={
         errors: validaciones.mapped()
       });
     }
+    
+    let nuevoProducto = await product.create(req.body)
 
+    if(req.files && req.files.length > 0){
+
+      let images = await Promise.all(req.files.map( file => {
+        return image.create({
+          path: file.filename
+        })
+      }))
+
+      let addProductImages = await Promise.all(images.map(image => {
+        return imagesProducts.create({
+          product: nuevoProducto.id,
+          image: image.id
+        })
+      }))
+
+    }
+    
     // req.body.image = req.files[0].filename
-    await product.create(req.body)
     return res.redirect('/products/')
   },
   edit:async ( req , res ) => {
