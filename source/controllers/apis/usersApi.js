@@ -1,6 +1,6 @@
 const {user, image} = require('../../database/models');
 const {Op} = require('sequelize');
-
+const {hashSync} = require('bcryptjs')
 
 const userApi = {
     all: async(req,res) => {
@@ -39,10 +39,12 @@ const userApi = {
     process: async (req, res) =>{
 
         try {
-            
-            let newUser = await user.create(req.body);
-            if(newUser){
+            req.body.password = hashSync(req.body.password,10)
+            req.body.isAdmin = req.body.username.includes('@dh.com') ? true: false
 
+            let newUser = await user.create(req.body);
+
+            if(newUser){
                 return res.status(200).json(newUser);
             }else{
                 return res.status(404).json('No se creó el usuario');
@@ -54,15 +56,18 @@ const userApi = {
     userDestroy: async (req, res) =>{     
    
     try {
-        let userDelete = await user.destroy({
-            where: {
-                id: req.params.id
-    }})
-        if(userDelete){
+        let userDB = await user.findByPk(req.params.id)
 
-            return res.status(200).json(userDelete);
+        if(!userDB){
+            return res.status(404).json('No se encontro el usuario');
+        }
+
+        let deleted = await userDB.destroy()
+
+        if(deleted){
+            return res.status(200).json(true);
         }else{
-            return res.status(500).json(userDelete);
+            return res.status(500).json(false);
         }
     } catch (error) {
         return res.status(500).json(error);

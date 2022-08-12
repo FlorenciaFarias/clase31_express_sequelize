@@ -33,3 +33,4 @@ app.use('/users',require('./routes/user.routes'))
 
 //APIs
 app.use('/api/users', require('./routes/apis/userApi.routes'));
+app.use('/api/products', require('./routes/apis/products.routes'));
