@@ -20,7 +20,29 @@ module.exports = {
                 limit: 4,
                 offset: page
             })
-            return res.status(200).json({next:products.length > 0 ?page+4:null,products})
+
+            let data = products.map(product => Object({
+                    id:product.id,
+                    name: product.name,
+                    image: "http://localhost:3030/illustrations/" + product.images[0].path
+                })
+            )
+
+            return res.status(200).json({data})
+        } catch (error) {
+            return res.status(500).json(error)
+        }
+    },
+    one: async (req,res) => {
+        try {
+            let result  = await product.findByPk(req.params.id,{
+                include:{all:true}
+            })
+            let data = {}
+            data.id = result.id
+            data.name = result.name
+            data.image = "http://localhost:3030/illustrations/" + result.images[0].path
+            return res.status(200).json(data)
         } catch (error) {
             return res.status(500).json(error)
         }
